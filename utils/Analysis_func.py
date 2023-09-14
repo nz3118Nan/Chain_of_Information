@@ -230,3 +230,16 @@ def df_Q_summary_process(df_Q_summary):
     plt.legend() 
     plt.show() 
     return accuracy, Entropy_True, Entropy_False
+
+
+
+def normalize_data(data):
+    min_val = min(data)
+    max_val = max(data)
+    normalized_data = []
+    
+    for value in data:
+        normalized_value = (value - min_val) / (max_val - min_val)
+        normalized_data.append(normalized_value)
+        
+    return normalized_data
