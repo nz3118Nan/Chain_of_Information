@@ -30,6 +30,23 @@ from GPT_API_3 import *
 from GPT_API_4 import *
 from Text_Davinci_003 import * 
 
+# openai api functions to conduct early stopping and short generation
+OPENAI_API_KEY = "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"
+openai.api_key = OPENAI_API_KEY
+# demo cot 4-shot ICL GSM8K testset Q10 
+def Davinci_openai_stop(prompt, stop_index):
+    response = openai.Completion.create(
+    model="text-davinci-002",prompt = prompt, temperature = 1,
+    max_tokens=1024, top_p=1, frequency_penalty=0,
+    presence_penalty=0,logprobs = 5,
+    stop = stop_index)
+    return response
+def Davinci_openai(prompt):
+    response = openai.Completion.create(
+    model="text-davinci-002",prompt = prompt, temperature = 1,
+    max_tokens=32, top_p=1, frequency_penalty=0,
+    presence_penalty=0,logprobs = 5)
+    return response
 
 
 # function generate token distribution table df_result_majority
@@ -139,7 +156,7 @@ def belif_change_index(dist1, dist2):
     return index
 
 # function to diversity the son node from parent node 
-def iteration(tmp_book, entropy_level = 1):
+def iteration(question_index, tmp_book, entropy_level = 1):
     layer_number = int(tmp_book["layer"].split("{")[1][0])
     step_str = "Step{"+str(layer_number+1) + "}Num"
     tmp = {}  
