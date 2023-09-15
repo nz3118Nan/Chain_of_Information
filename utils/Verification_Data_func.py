@@ -154,7 +154,8 @@ def large_scale_data_processing(dic_result_collection,GSM8K_test_df_min):
             log_list = result_i[0]["logprobs"]["top_logprobs"][index+1]
             for key in list(log_list.keys()):
                 df.loc[len(df)] = [key, log_list[key]]
-                
+            df["token"] = [i.replace(" ","") for i in df["token"]]
+
         df_result = pd.DataFrame(columns=["token", 'logprob'])
         for token in np.unique(df["token"]):
             df_result.loc[len(df_result)] = [token, np.mean(df[df["token"] == token]["logprob"])]
@@ -253,7 +254,7 @@ def large_scale_data_processing_step(dic_result_collection, GSM8K_test_df_min, s
             log_list = result_i[0]["logprobs"]["top_logprobs"][index+1]
             for key in list(log_list.keys()):
                 df.loc[len(df)] = [key, log_list[key]]
-
+            df["token"] = [i.replace(" ","") for i in df["token"]]
         pbar.update(1)
         df_result = pd.DataFrame(columns=["token", 'logprob'])
         for token in np.unique(df["token"]):
